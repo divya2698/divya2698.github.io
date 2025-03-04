@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import emailjs from '@emailjs/browser';
+import React, { useState, useEffect, Suspense, useRef} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { useInView } from 'react-intersection-observer';
@@ -20,6 +21,7 @@ function App() {
   const { ref: experienceRef, inView: experienceInView } = useInView({ threshold: 0.5 });
   const { ref: projectsRef, inView: projectsInView } = useInView({ threshold: 0.5 });
   const { ref: contactRef, inView: contactInView } = useInView({ threshold: 0.5 });
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Update active section based on scroll position
   useEffect(() => {
@@ -109,6 +111,32 @@ function App() {
       image: "https://images.unsplash.com/photo-1557821552-17105176677c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     }
   ];
+
+//contact
+const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  if (formRef.current) {
+    emailjs
+      .sendForm(
+        'service_52aej65', // Replace with your Email.js Service ID
+        'template_hzy81jc', // Replace with your Template ID
+        formRef.current,
+        'GKpToT6WhtFOJ5XfI' // Replace with your Public Key
+      )
+      .then(
+        (result) => {
+          console.log('Message Sent:', result.text);
+          alert('Message Sent Successfully!');
+          formRef.current?.reset(); // Reset the form after successful submission
+        },
+        (error) => {
+          console.error('Failed to Send:', error.text);
+          alert('Failed to send message.');
+        }
+      );
+  }
+};
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -460,63 +488,28 @@ function App() {
                 className="md:w-1/2"
               >
                 <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-                
-                <form 
-                action="https://formspree.io/f/mbldnbwa" 
-                method="POST" 
-                onSubmit={(e) => {
-                  e.preventDefault(); 
-                  alert('Message sent successfully!');
-                  const form = e.target as HTMLFormElement; 
-                  form.submit();
-                }}
-                className="space-y-4"
-              >
-                <div>
-                  <label htmlFor="name" className="block mb-2 font-medium">Name</label>
-                  <input 
-                    type="text" 
-                    name="name" 
-                    id="name" 
-                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                    placeholder="Your name" 
-                    required
-                  />
-                </div>
+              
+                <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
+          <div>
+            <label htmlFor="name">Name</label>
+            <input type="text" name="from_name" id="name" placeholder="Your Name" required />
+          </div>
 
-                <div>
-                  <label htmlFor="email" className="block mb-2 font-medium">Email</label>
-                  <input 
-                    type="email" 
-                    name="email" 
-                    id="email" 
-                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                    placeholder="Your email" 
-                    required
-                  />
-                </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="email" name="reply_to" id="email" placeholder="Your Email" required />
+          </div>
 
-                <div>
-                  <label htmlFor="message" className="block mb-2 font-medium">Message</label>
-                  <textarea 
-                    name="message" 
-                    id="message" 
-                    rows={4} 
-                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                    placeholder="Your message" 
-                    required
-                  ></textarea>
-                </div>
+          <div>
+            <label htmlFor="message">Message</label>
+            <textarea name="message" id="message" rows={4} placeholder="Your Message" required></textarea>
+          </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  type="submit"
-                  className={`px-6 py-3 rounded-lg font-semibold ${darkMode ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
-                >
-                  Send Message
-                </motion.button>
-              </form>
+          <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg">
+            Send Message
+          </button>
+        </form>
+  
 
               </motion.div>
             </div>
