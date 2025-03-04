@@ -200,7 +200,7 @@ function App() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('projects')}
+              onClick={() => scrollToSection('experience')}
               className={`px-8 py-3 rounded-full font-semibold ${darkMode ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
             >
               View My Work
@@ -461,46 +461,63 @@ function App() {
               >
                 <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
                 
-                <form className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block mb-2 font-medium">Name</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                      placeholder="Your name"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block mb-2 font-medium">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                      placeholder="Your email"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block mb-2 font-medium">Message</label>
-                    <textarea 
-                      id="message" 
-                      rows={4} 
-                      className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
-                      placeholder="Your message"
-                    ></textarea>
-                  </div>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    type="submit"
-                    className={`px-6 py-3 rounded-lg font-semibold ${darkMode ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
-                  >
-                    Send Message
-                  </motion.button>
-                </form>
+                <form 
+                action="https://formspree.io/f/mbldnbwa" 
+                method="POST" 
+                onSubmit={(e) => {
+                  e.preventDefault(); 
+                  alert('Message sent successfully!');
+                  const form = e.target as HTMLFormElement; 
+                  form.submit();
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label htmlFor="name" className="block mb-2 font-medium">Name</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    id="name" 
+                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
+                    placeholder="Your name" 
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block mb-2 font-medium">Email</label>
+                  <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
+                    placeholder="Your email" 
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block mb-2 font-medium">Message</label>
+                  <textarea 
+                    name="message" 
+                    id="message" 
+                    rows={4} 
+                    className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`} 
+                    placeholder="Your message" 
+                    required
+                  ></textarea>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  className={`px-6 py-3 rounded-lg font-semibold ${darkMode ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
+                >
+                  Send Message
+                </motion.button>
+              </form>
+
               </motion.div>
             </div>
           </div>
