@@ -120,7 +120,7 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     emailjs
       .sendForm(
         'service_52aej65', // Replace with your Email.js Service ID
-        'template_hzy81jc', // Replace with your Template ID
+        'template_ulmvw7w', // Replace with your Template ID
         formRef.current,
         'GKpToT6WhtFOJ5XfI' // Replace with your Public Key
       )
