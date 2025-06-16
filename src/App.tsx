@@ -22,6 +22,8 @@ function App() {
   const { ref: projectsRef, inView: projectsInView } = useInView({ threshold: 0.5 });
   const { ref: contactRef, inView: contactInView } = useInView({ threshold: 0.5 });
   const formRef = useRef<HTMLFormElement>(null);
+  
+  emailjs.init("GKpToT6WhtFOJ5XfI");
 
   // Update active section based on scroll position
   useEffect(() => {
@@ -52,6 +54,7 @@ function App() {
     }
   };
 
+  
   // Experience data
   const experiences = [
     {
@@ -114,24 +117,26 @@ function App() {
 
 //contact
 const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  e.preventDefault(); // Prevent the default form submission
 
   if (formRef.current) {
+    console.log("Sending Email...");
+
     emailjs
       .sendForm(
-        'service_52aej65', // Replace with your Email.js Service ID
-        'template_ulmvw7w', // Replace with your Template ID
-        formRef.current,
-        'GKpToT6WhtFOJ5XfI' // Replace with your Public Key
+        'service_52aej65', 
+        'template_ulmvw7w',
+        formRef.current, 
+        'GKpToT6WhtFOJ5XfI' // EmailJS user ID
       )
       .then(
         (result) => {
           console.log('Message Sent:', result.text);
           alert('Message Sent Successfully!');
-          formRef.current?.reset(); // Reset the form after successful submission
+          formRef.current?.reset(); 
         },
         (error) => {
-          console.error('Failed to Send:', error.text);
+          console.error('Failed to Send:', error);
           alert('Failed to send message.');
         }
       );
@@ -273,7 +278,7 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
               <div className="relative">
                 <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden mx-auto">
                   <img 
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                    src="/assets/DP.jpeg" 
                     alt="Divya Prajapati" 
                     className="w-full h-full object-cover"
                   />
@@ -403,8 +408,8 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
       </section>
 
       {/* Contact Section */}
-      <section 
-        id="contact" 
+      <section
+        id="contact"
         ref={contactRef}
         className={`py-20 transition-colors duration-300 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}
       >
@@ -422,7 +427,7 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
 
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-8">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
@@ -430,7 +435,7 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
                 className="md:w-1/2"
               >
                 <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
@@ -438,21 +443,24 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
                     </div>
                     <div>
                       <p className="font-medium">Email</p>
-                      <a href="mailto:prajapati.di@northeastern.edu" className={`${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>
+                      <a
+                        href="mailto:prajapati.di@northeastern.edu"
+                        className={`${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
+                      >
                         prajapati.di@northeastern.edu
                       </a>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                       <Linkedin size={24} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
                     </div>
                     <div>
                       <p className="font-medium">LinkedIn</p>
-                      <a 
-                        href="https://linkedin.com/in/divyaprajapati26" 
-                        target="_blank" 
+                      <a
+                        href="https://linkedin.com/in/divyaprajapati26"
+                        target="_blank"
                         rel="noopener noreferrer"
                         className={`${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
                       >
@@ -460,16 +468,16 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
                       </a>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-4">
                     <div className={`p-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                       <Github size={24} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
                     </div>
                     <div>
                       <p className="font-medium">GitHub</p>
-                      <a 
-                        href="https://github.com/divyaprajapati" 
-                        target="_blank" 
+                      <a
+                        href="https://github.com/divyaprajapati"
+                        target="_blank"
                         rel="noopener noreferrer"
                         className={`${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
                       >
@@ -479,8 +487,8 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
@@ -488,34 +496,38 @@ const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
                 className="md:w-1/2"
               >
                 <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-              
+
                 <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
-          <div>
-            <label htmlFor="name">Name</label>
-            <input type="text" name="from_name" id="name" placeholder="Your Name" required />
-          </div>
+                <div>
+                  <label htmlFor="name">Name</label>
+                  <input type="text" name="from_name" id="name" placeholder="Your Name" required />
+                </div>
 
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" name="reply_to" id="email" placeholder="Your Email" required />
-          </div>
+                <div>
+                  <label htmlFor="email">Email</label>
+                  <input type="email" name="reply_to" id="email" placeholder="Your Email" required />
+                </div>
 
-          <div>
-            <label htmlFor="message">Message</label>
-            <textarea name="message" id="message" rows={4} placeholder="Your Message" required></textarea>
-          </div>
+                <div>
+                  <label htmlFor="subject">Subject</label>
+                  <input type="text" name="subject" id="subject" placeholder="Subject" required />
+                </div>
 
-          <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg">
-            Send Message
-          </button>
-        </form>
-  
+                <div>
+                  <label htmlFor="message">Message</label>
+                  <textarea name="message" id="message" rows={4} placeholder="Your Message" required></textarea>
+                </div>
 
+                <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg">
+                  Send Message
+                </button>
+              </form>
               </motion.div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Footer */}
       <footer className={`py-8 transition-colors duration-300 ${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'}`}>
